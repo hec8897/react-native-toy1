@@ -1,9 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import {  Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import logo from './assets/logo.png'; 
 
 export default function App() {
+  
+  let openImagePickerAsync = async () => {
+    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required!");
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+    console.log(pickerResult);
+  }
+
   return (
     <View style={styles.container}>
       
@@ -11,7 +25,7 @@ export default function App() {
 
       <Text style={styles.instructions}>Hi up App.js to start working on your app!</Text>
 
-      <TouchableOpacity onPress={() => alert('Hello, world!')} style={styles.button}>
+      <TouchableOpacity onPress={openImagePickerAsync} style={styles.button}>
         <Text style={styles.buttonText}>Pick a photo</Text>
       </TouchableOpacity>
 
